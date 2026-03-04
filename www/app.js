@@ -6,6 +6,11 @@ const DEFAULT_PASSWORD = '1234';
 const MYMEMORY_API = 'https://api.mymemory.translated.net/get';
 const DICTIONARY_API = 'https://api.dictionaryapi.dev/api/v2/entries/en';
 
+// ============ ADMOB CONFIG ============
+// ⚠️ TEST IDS — Cambiar por los reales de admob.google.com antes de publicar
+const ADMOB_BANNER_ID = 'ca-app-pub-3940256099942544/6300978111';       // Test banner
+const ADMOB_INTERSTITIAL_ID = 'ca-app-pub-3940256099942544/1033173712'; // Test interstitial
+
 // ============ DICTIONARY MERGE ============
 // Base words from dictionary.js + user-added words from localStorage
 function getAllWords() {
@@ -388,6 +393,9 @@ function showResults() {
 
   showScreen('results');
 
+  // Show interstitial ad after quiz ends
+  showInterstitialAd();
+
   requestAnimationFrame(() => {
     setTimeout(() => {
       els.scoreCircle.style.strokeDashoffset = offset;
@@ -688,5 +696,97 @@ els.modalPwd.addEventListener('click', (e) => {
   if (e.target === els.modalPwd) hidePwdModal();
 });
 
+// ============ ADMOB ============
+let admobReady = false;
+
+async function initAdMob() {
+  // Only initialize on native platform (not browser)
+  if (!window.Capacitor || !window.Capacitor.isNativePlatform()) {
+    console.log('⏭️ AdMob: no es plataforma nativa, saltando...');
+    return;
+  }
+
+  try {
+    const { AdMob } = window.Capacitor.Plugins;
+    if (!AdMob) {
+      console.log('⏭️ AdMob plugin no disponible');
+      return;
+    }
+
+    // Initialize AdMob
+    await AdMob.initialize({
+      initializeForTesting: true, // cambiar a false en producción
+    });
+
+    admobReady = true;
+    console.log('✅ AdMob inicializado');
+
+    // Show banner on home
+    showBannerAd();
+
+    // Pre-load interstitial
+    prepareInterstitialAd();
+  } catch (err) {
+    console.error('❌ Error inicializando AdMob:', err);
+  }
+}
+
+async function showBannerAd() {
+  if (!admobReady) return;
+  try {
+    const { AdMob } = window.Capacitor.Plugins;
+    await AdMob.showBanner({
+      adId: ADMOB_BANNER_ID,
+      adSize: 'BANNER',
+      position: 'BOTTOM_CENTER',
+      margin: 0,
+      isTesting: true, // cambiar a false en producción
+    });
+    console.log('✅ Banner mostrado');
+  } catch (err) {
+    console.error('❌ Error mostrando banner:', err);
+  }
+}
+
+async function hideBannerAd() {
+  if (!admobReady) return;
+  try {
+    const { AdMob } = window.Capacitor.Plugins;
+    await AdMob.hideBanner();
+  } catch (err) {
+    // ignore
+  }
+}
+
+async function prepareInterstitialAd() {
+  if (!admobReady) return;
+  try {
+    const { AdMob } = window.Capacitor.Plugins;
+    await AdMob.prepareInterstitial({
+      adId: ADMOB_INTERSTITIAL_ID,
+      isTesting: true, // cambiar a false en producción
+    });
+    console.log('✅ Interstitial preparado');
+  } catch (err) {
+    console.error('❌ Error preparando interstitial:', err);
+  }
+}
+
+async function showInterstitialAd() {
+  if (!admobReady) return;
+  try {
+    const { AdMob } = window.Capacitor.Plugins;
+    await AdMob.showInterstitial();
+    console.log('✅ Interstitial mostrado');
+    // Pre-load next one
+    prepareInterstitialAd();
+  } catch (err) {
+    console.error('❌ Error mostrando interstitial:', err);
+    // Try to prepare again
+    prepareInterstitialAd();
+  }
+}
+
 // ============ INIT ============
 updateHome();
+initAdMob();
