@@ -7,9 +7,8 @@ const MYMEMORY_API = 'https://api.mymemory.translated.net/get';
 const DICTIONARY_API = 'https://api.dictionaryapi.dev/api/v2/entries/en';
 
 // ============ ADMOB CONFIG ============
-// ⚠️ TEST IDS — Cambiar por los reales de admob.google.com antes de publicar
-const ADMOB_BANNER_ID = 'ca-app-pub-3940256099942544/6300978111';       // Test banner
-const ADMOB_INTERSTITIAL_ID = 'ca-app-pub-3940256099942544/1033173712'; // Test interstitial
+const ADMOB_BANNER_ID = 'ca-app-pub-7943132276586341/3207733057';       // Test banner
+const ADMOB_INTERSTITIAL_ID = 'ca-app-pub-7943132276586341/3618796597'; // Test interstitial
 
 // ============ DICTIONARY MERGE ============
 // Base words from dictionary.js + user-added words from localStorage
@@ -715,7 +714,7 @@ async function initAdMob() {
 
     // Initialize AdMob
     await AdMob.initialize({
-      initializeForTesting: true, // cambiar a false en producción
+      initializeForTesting: false,
     });
 
     admobReady = true;
@@ -740,7 +739,7 @@ async function showBannerAd() {
       adSize: 'BANNER',
       position: 'BOTTOM_CENTER',
       margin: 0,
-      isTesting: true, // cambiar a false en producción
+      isTesting: false,
     });
     console.log('✅ Banner mostrado');
   } catch (err) {
@@ -764,7 +763,7 @@ async function prepareInterstitialAd() {
     const { AdMob } = window.Capacitor.Plugins;
     await AdMob.prepareInterstitial({
       adId: ADMOB_INTERSTITIAL_ID,
-      isTesting: true, // cambiar a false en producción
+      isTesting: false,
     });
     console.log('✅ Interstitial preparado');
   } catch (err) {
