@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>English Quiz - Aprende Inglés</title>
+  <meta name="description" content="Juego de vocabulario inglés-español. Aprende palabras en inglés de forma divertida.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ============ PANTALLA INICIO ============ -->
+  <div id="screen-home" class="screen active">
+    <div class="home-container">
+      <div class="logo-glow"></div>
+      <div class="logo">🇬🇧</div>
+      <h1 class="app-title">English<span>Quiz</span></h1>
+      <p class="app-subtitle">Aprende vocabulario inglés jugando</p>
+      <div class="stats-preview">
+        <div class="stat-box">
+          <span class="stat-number" id="total-words">44</span>
+          <span class="stat-label">Palabras</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number" id="best-score-home">0</span>
+          <span class="stat-label">Mejor Puntuación</span>
+        </div>
+      </div>
+      <button class="btn-primary" id="btn-play">
+        <span>🎮</span> Jugar
+      </button>
+      <button class="btn-secondary" id="btn-dictionary">
+        <span>📖</span> Diccionario
+      </button>
+    </div>
+  </div>
+
+  <!-- ============ PANTALLA JUEGO ============ -->
+  <div id="screen-game" class="screen">
+    <div class="game-header">
+      <button class="btn-back" id="btn-back-game">✕</button>
+      <div class="progress-info">
+        <span id="question-counter">1 / 10</span>
+      </div>
+      <div class="score-badge">
+        <span>⭐</span> <span id="current-score">0</span>
+      </div>
+    </div>
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <div class="game-content">
+      <div class="word-card" id="word-card">
+        <p class="word-label">¿Qué significa...</p>
+        <h2 class="word-english" id="word-english">chortled</h2>
+      </div>
+      <div class="options-container" id="options-container">
+        <!-- Opciones generadas por JS -->
+      </div>
+    </div>
+    <div class="feedback-overlay" id="feedback-overlay">
+      <div class="feedback-content" id="feedback-content">
+        <div class="feedback-icon" id="feedback-icon">✅</div>
+        <p class="feedback-text" id="feedback-text">¡Correcto!</p>
+        <p class="feedback-answer" id="feedback-answer"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PANTALLA RESULTADOS ============ -->
+  <div id="screen-results" class="screen">
+    <div class="results-container">
+      <div class="results-emoji" id="results-emoji">🏆</div>
+      <h2 class="results-title" id="results-title">¡Excelente!</h2>
+      <div class="results-score-circle">
+        <svg viewBox="0 0 120 120">
+          <circle class="score-bg" cx="60" cy="60" r="54"></circle>
+          <circle class="score-fill" id="score-circle" cx="60" cy="60" r="54"></circle>
+        </svg>
+        <div class="score-text">
+          <span class="score-number" id="final-score">0</span>
+          <span class="score-total" id="final-total">/ 10</span>
+        </div>
+      </div>
+      <p class="results-message" id="results-message">¡Sigue practicando!</p>
+      <div class="results-details">
+        <div class="detail-item correct">
+          <span>✅ Aciertos</span>
+          <span id="detail-correct">0</span>
+        </div>
+        <div class="detail-item wrong">
+          <span>❌ Fallos</span>
+          <span id="detail-wrong">0</span>
+        </div>
+      </div>
+      <button class="btn-primary" id="btn-play-again">
+        <span>🔄</span> Jugar de Nuevo
+      </button>
+      <button class="btn-secondary" id="btn-home">
+        <span>🏠</span> Inicio
+      </button>
+    </div>
+  </div>
+
+  <!-- ============ PANTALLA DICCIONARIO ============ -->
+  <div id="screen-dictionary" class="screen">
+    <div class="dict-header">
+      <button class="btn-back" id="btn-back-dict">←</button>
+      <h2>📖 Diccionario</h2>
+      <div></div>
+    </div>
+    <div class="search-box">
+      <input type="text" id="search-input" placeholder="Buscar palabra...">
+    </div>
+    <div class="dict-list" id="dict-list">
+      <!-- Generado por JS -->
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

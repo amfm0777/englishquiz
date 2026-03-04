@@ -1,0 +1,13 @@
+{
+  "appId": "com.englishquiz.app",
+  "appName": "EnglishQuiz",
+  "webDir": "www",
+  "backgroundColor": "#0a0e1a",
+  "android": {
+    "backgroundColor": "#0a0e1a",
+    "allowMixedContent": false
+  },
+  "server": {
+    "androidScheme": "https"
+  }
+}

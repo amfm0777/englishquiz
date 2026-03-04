@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>English Quiz - Aprende Inglés</title>
+  <meta name="description"
+    content="Juego de vocabulario inglés-español. Aprende palabras en inglés de forma divertida.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- ============ PANTALLA INICIO ============ -->
+  <div id="screen-home" class="screen active">
+    <div class="home-container">
+      <button class="btn-settings" id="btn-settings" title="Panel de Administración">⚙️</button>
+      <div class="logo-glow"></div>
+      <div class="logo">🇬🇧</div>
+      <h1 class="app-title">English<span>Quiz</span></h1>
+      <p class="app-subtitle">Aprende vocabulario inglés jugando</p>
+      <div class="stats-preview">
+        <div class="stat-box">
+          <span class="stat-number" id="total-words">44</span>
+          <span class="stat-label">Palabras</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number" id="best-score-home">0</span>
+          <span class="stat-label">Mejor Puntuación</span>
+        </div>
+      </div>
+      <button class="btn-primary" id="btn-play">
+        <span>🎮</span> Jugar
+      </button>
+      <button class="btn-secondary" id="btn-dictionary">
+        <span>📖</span> Diccionario
+      </button>
+    </div>
+  </div>
+
+  <!-- ============ PANTALLA JUEGO ============ -->
+  <div id="screen-game" class="screen">
+    <div class="game-header">
+      <button class="btn-back" id="btn-back-game">✕</button>
+      <div class="progress-info">
+        <span id="question-counter">1 / 10</span>
+      </div>
+      <div class="score-badge">
+        <span>⭐</span> <span id="current-score">0</span>
+      </div>
+    </div>
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <div class="game-content">
+      <div class="word-card" id="word-card">
+        <p class="word-label">¿Qué significa...</p>
+        <h2 class="word-english" id="word-english">chortled</h2>
+        <p class="word-phonetic" id="word-phonetic"></p>
+        <button class="btn-speak" id="btn-speak" title="Escuchar pronunciación">🔊</button>
+      </div>
+      <div class="options-container" id="options-container">
+        <!-- Opciones generadas por JS -->
+      </div>
+    </div>
+    <div class="feedback-overlay" id="feedback-overlay">
+      <div class="feedback-content" id="feedback-content">
+        <div class="feedback-icon" id="feedback-icon">✅</div>
+        <p class="feedback-text" id="feedback-text">¡Correcto!</p>
+        <p class="feedback-answer" id="feedback-answer"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PANTALLA RESULTADOS ============ -->
+  <div id="screen-results" class="screen">
+    <div class="results-container">
+      <div class="results-emoji" id="results-emoji">🏆</div>
+      <h2 class="results-title" id="results-title">¡Excelente!</h2>
+      <div class="results-score-circle">
+        <svg viewBox="0 0 120 120">
+          <circle class="score-bg" cx="60" cy="60" r="54"></circle>
+          <circle class="score-fill" id="score-circle" cx="60" cy="60" r="54"></circle>
+        </svg>
+        <div class="score-text">
+          <span class="score-number" id="final-score">0</span>
+          <span class="score-total" id="final-total">/ 10</span>
+        </div>
+      </div>
+      <p class="results-message" id="results-message">¡Sigue practicando!</p>
+      <div class="results-details">
+        <div class="detail-item correct">
+          <span>✅ Aciertos</span>
+          <span id="detail-correct">0</span>
+        </div>
+        <div class="detail-item wrong">
+          <span>❌ Fallos</span>
+          <span id="detail-wrong">0</span>
+        </div>
+      </div>
+      <button class="btn-primary" id="btn-play-again">
+        <span>🔄</span> Jugar de Nuevo
+      </button>
+      <button class="btn-secondary" id="btn-home">
+        <span>🏠</span> Inicio
+      </button>
+    </div>
+  </div>
+
+  <!-- ============ PANTALLA DICCIONARIO ============ -->
+  <div id="screen-dictionary" class="screen">
+    <div class="dict-header">
+      <button class="btn-back" id="btn-back-dict">←</button>
+      <h2>📖 Diccionario</h2>
+      <div></div>
+    </div>
+    <div class="search-box">
+      <input type="text" id="search-input" placeholder="Buscar palabra...">
+    </div>
+    <div class="dict-list" id="dict-list">
+      <!-- Generado por JS -->
+    </div>
+  </div>
+
+  <!-- ============ PANTALLA LOGIN ADMIN ============ -->
+  <div id="screen-login" class="screen">
+    <div class="login-container">
+      <button class="btn-back login-back" id="btn-back-login">←</button>
+      <div class="login-icon">🔐</div>
+      <h2 class="login-title">Panel de Padre</h2>
+      <p class="login-subtitle">Introduce la contraseña para acceder</p>
+      <div class="login-form">
+        <input type="password" id="login-password" placeholder="Contraseña" autocomplete="off">
+        <p class="login-error" id="login-error"></p>
+        <button class="btn-primary" id="btn-login">
+          <span>🔓</span> Entrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PANTALLA ADMIN ============ -->
+  <div id="screen-admin" class="screen">
+    <div class="admin-header">
+      <button class="btn-back" id="btn-back-admin">←</button>
+      <h2>👨‍👧 Panel de Padre</h2>
+      <button class="btn-icon" id="btn-change-pwd" title="Cambiar contraseña">🔑</button>
+    </div>
+
+    <div class="admin-content">
+      <!-- Formulario añadir palabra -->
+      <div class="admin-section">
+        <h3 class="admin-section-title">➕ Añadir Palabra</h3>
+        <div class="admin-direction">
+          <button class="direction-btn active" id="dir-en-es" data-dir="en-es">🇬🇧 → 🇪🇸</button>
+          <button class="direction-btn" id="dir-es-en" data-dir="es-en">🇪🇸 → 🇬🇧</button>
+        </div>
+        <div class="admin-form">
+          <div class="input-group">
+            <label id="input-label">Palabra en inglés</label>
+            <input type="text" id="admin-word-input" placeholder="Escribe una palabra...">
+          </div>
+          <button class="btn-translate" id="btn-translate">
+            <span class="translate-icon">🌐</span>
+            <span class="translate-text">Traducir</span>
+            <span class="translate-loading" style="display:none">⏳</span>
+          </button>
+          <div class="input-group">
+            <label id="output-label">Traducción al español</label>
+            <input type="text" id="admin-translation-input" placeholder="Traducción...">
+          </div>
+          <button class="btn-primary btn-save" id="btn-save-word">
+            <span>💾</span> Guardar Palabra
+          </button>
+        </div>
+        <p class="admin-status" id="admin-status"></p>
+      </div>
+
+      <!-- Lista de palabras añadidas -->
+      <div class="admin-section">
+        <h3 class="admin-section-title">📝 Palabras añadidas por ti <span class="admin-count"
+            id="admin-count">(0)</span></h3>
+        <div class="admin-word-list" id="admin-word-list">
+          <!-- Generado por JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL CAMBIAR CONTRASEÑA ============ -->
+  <div class="modal-overlay" id="modal-pwd" style="display:none">
+    <div class="modal-box">
+      <h3>🔑 Cambiar Contraseña</h3>
+      <input type="password" id="pwd-current" placeholder="Contraseña actual">
+      <input type="password" id="pwd-new" placeholder="Nueva contraseña">
+      <input type="password" id="pwd-confirm" placeholder="Confirmar nueva contraseña">
+      <p class="modal-error" id="pwd-error"></p>
+      <div class="modal-buttons">
+        <button class="btn-secondary btn-sm" id="btn-pwd-cancel">Cancelar</button>
+        <button class="btn-primary btn-sm" id="btn-pwd-save">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="dictionary.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
