@@ -8,7 +8,7 @@ const DICTIONARY_API = 'https://api.dictionaryapi.dev/api/v2/entries/en';
 
 // ============ ADMOB CONFIG ============
 const ADMOB_BANNER_ID = 'ca-app-pub-7943132276586341/3207733057';       // Test banner
-const ADMOB_INTERSTITIAL_ID = 'ca-app-pub-7943132276586341/3618796597'; // Test interstitial
+// const ADMOB_INTERSTITIAL_ID = 'ca-app-pub-7943132276586341/3618796597'; // Test interstitial
 
 // ============ DICTIONARY MERGE ============
 // Base words from dictionary.js + user-added words from localStorage
@@ -407,7 +407,7 @@ function showResults() {
   showScreen('results');
 
   // Show interstitial ad after quiz ends
-  showInterstitialAd();
+  // showInterstitialAd();
 
   requestAnimationFrame(() => {
     setTimeout(() => {
@@ -747,7 +747,7 @@ async function initAdMob() {
     showBannerAd();
 
     // Pre-load interstitial
-    prepareInterstitialAd();
+    // prepareInterstitialAd();
   } catch (err) {
     console.error('❌ Error inicializando AdMob:', err);
   }
@@ -780,6 +780,7 @@ async function hideBannerAd() {
   }
 }
 
+/*
 async function prepareInterstitialAd() {
   if (!admobReady) return;
   try {
@@ -793,7 +794,9 @@ async function prepareInterstitialAd() {
     console.error('❌ Error preparando interstitial:', err);
   }
 }
+*/
 
+/*
 async function showInterstitialAd() {
   if (!admobReady) return;
   try {
@@ -808,6 +811,7 @@ async function showInterstitialAd() {
     prepareInterstitialAd();
   }
 }
+*/
 
 // ============ INIT ============
 updateHome();
