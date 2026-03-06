@@ -1,9 +1,7 @@
 ---
 description: Sube todos los cambios locales al repositorio remoto Git
 ---
-> **REGLA RESTRICTIVA PARA EL AGENTE:** Si el usuario hace una pregunta sobre el código o este workflow, responde solo con texto. NO ejecutes este workflow automáticamente para intentar "solucionar" el problema a menos que el usuario use explícitamente el comando (ej. `@[/nombre_workflow]`) o pida expresamente ejecutarlo.
-
-
+> **REGLA RESTRICTIVA PARA EL AGENTE:** Si el usuario termina su prompt con una pregunta (ej. "¿es posible?", "¿cómo se hace?"), NO debes ejecutar NINGÚN código ni flujo de trabajo. Tu única acción debe ser responder con texto para conversar y entender el requerimiento. NO ejecutes nada proactivamente a menos que el usuario use un comando explícito (ej. `@[/nombre_workflow]`) o dé una orden directa sin formato de pregunta.
 Este workflow automatiza el volcado (commit) y subida (push) de todos los ficheros modificados en el proyecto hacia tu repositorio remoto de Git. 
 
 1. **Añadir Cambios:**
