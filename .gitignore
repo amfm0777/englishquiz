@@ -7,3 +7,6 @@ build/
 *.apk
 *.aab
 *.keystore
+package-lock.json
+.gitignore
+package-lock.json

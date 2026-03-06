@@ -2,7 +2,7 @@
 const QUESTIONS_PER_GAME = 10;
 const FEEDBACK_DELAY = 1200;
 const LETTERS = ['A', 'B', 'C'];
-const DEFAULT_PASSWORD = '1234';
+
 const MYMEMORY_API = 'https://api.mymemory.translated.net/get';
 const DICTIONARY_API = 'https://api.dictionaryapi.dev/api/v2/entries/en';
 
@@ -30,14 +30,7 @@ function getNextId() {
   return all.length > 0 ? Math.max(...all.map(w => w.id)) + 1 : 1;
 }
 
-// ============ PASSWORD ============
-function getPassword() {
-  return localStorage.getItem('englishQuiz_adminPwd') || DEFAULT_PASSWORD;
-}
 
-function setPassword(pwd) {
-  localStorage.setItem('englishQuiz_adminPwd', pwd);
-}
 
 // ============ STATE ============
 let gameState = {
@@ -153,8 +146,30 @@ function showScreen(name) {
   screens[name].classList.add('active');
 }
 
-// ============ PRONUNCIATION (Web Speech API) ============
+// ============ PRONUNCIATION (Native TTS + Web Speech API fallback) ============
 function speakWord(word) {
+  // Try native Capacitor TTS first (works on Android)
+  if (window.Capacitor && window.Capacitor.isNativePlatform()) {
+    const { TextToSpeech } = window.Capacitor.Plugins;
+    if (TextToSpeech) {
+      els.btnSpeak.classList.add('speaking');
+      TextToSpeech.speak({
+        text: word,
+        lang: 'en-US',
+        rate: 0.85,
+        pitch: 1.0,
+        volume: 1.0,
+        category: 'ambient',
+      }).then(() => {
+        els.btnSpeak.classList.remove('speaking');
+      }).catch(() => {
+        els.btnSpeak.classList.remove('speaking');
+      });
+      return;
+    }
+  }
+
+  // Fallback: Web Speech API (browser)
   if (!('speechSynthesis' in window)) return;
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(word);
@@ -162,7 +177,6 @@ function speakWord(word) {
   utterance.rate = 0.85;
   utterance.pitch = 1;
 
-  // Try to find an English voice
   const voices = window.speechSynthesis.getVoices();
   const enVoice = voices.find(v => v.lang.startsWith('en'));
   if (enVoice) utterance.voice = enVoice;
@@ -174,7 +188,7 @@ function speakWord(word) {
   window.speechSynthesis.speak(utterance);
 }
 
-// Preload voices
+// Preload voices (browser only)
 if ('speechSynthesis' in window) {
   window.speechSynthesis.getVoices();
   window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
@@ -482,7 +496,12 @@ async function handleTranslate() {
   try {
     const translation = await translateWord(word, langPair);
     els.adminTranslationInput.value = translation;
-    showAdminStatus('✅ Traducción completada', 'success');
+    showAdminStatus('✅ Traducción completada — puedes editarla si quieres', 'success');
+    // Highlight and focus the translation field so the user knows they can edit it
+    els.adminTranslationInput.focus();
+    els.adminTranslationInput.select();
+    els.adminTranslationInput.classList.add('highlight-editable');
+    setTimeout(() => els.adminTranslationInput.classList.remove('highlight-editable'), 2000);
   } catch (err) {
     showAdminStatus(err.message, 'error');
   } finally {
@@ -616,14 +635,18 @@ els.btnDictionary.addEventListener('click', () => {
   showScreen('dictionary');
 });
 els.btnSettings.addEventListener('click', () => {
-  els.loginPassword.value = '';
-  els.loginError.textContent = '';
-  showScreen('login');
+  showAdminPanel();
 });
 
 // Game
 els.btnBackGame.addEventListener('click', () => {
-  window.speechSynthesis.cancel();
+  // Stop any speech in progress
+  if (window.Capacitor && window.Capacitor.isNativePlatform()) {
+    const { TextToSpeech } = window.Capacitor.Plugins;
+    if (TextToSpeech) TextToSpeech.stop();
+  } else if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+  }
   showScreen('home');
   updateHome();
 });

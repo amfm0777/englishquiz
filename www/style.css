@@ -1074,6 +1074,24 @@ body {
   color: var(--text-muted);
 }
 
+.input-group input.highlight-editable {
+  border-color: var(--success);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
+  animation: pulse-editable 1s ease 2;
+}
+
+@keyframes pulse-editable {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
+  }
+
+  50% {
+    box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.15);
+  }
+}
+
 .btn-translate {
   width: 100%;
   padding: 14px;
