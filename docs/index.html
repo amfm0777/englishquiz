@@ -144,17 +144,15 @@
 
     <div class="container">
         <!-- CI/CD STATUS BANNER -->
-        <section style="background-color: #fff1f2; border-left: 4px solid var(--danger);">
-            <h2 style="color: var(--danger); border-bottom-color: var(--danger);">🔴 Última Ejecución: Pipeline Abortado
+        <section style="background-color: #f0fdf4; border-left: 4px solid var(--success);">
+            <h2 style="color: var(--success); border-bottom-color: var(--success);">� Última Ejecución: Pipeline Exitoso
             </h2>
             <p><strong>Fase 1 (Sintaxis Web):</strong> <span class="badge success">Pasó</span></p>
-            <p><strong>Fase 2 (Tests):</strong> <span class="badge danger">Falló</span> (Exit code 1 - Error: no test
-                specified)</p>
-            <p><strong>Fase 3 (Android Build):</strong> <span class="badge warning">Omitido</span> debido a fallo en
-                pruebas previas</p>
+            <p><strong>Fase 2 (Tests):</strong> <span class="badge success">Pasó</span> (100% Passing - utils.test.js)
+            </p>
+            <p><strong>Fase 3 (Android Build):</strong> <span class="badge success">AAB Generado</span>
+                (app-release.aab)</p>
             <p><strong>Fase 4 (Documentación):</strong> <span class="badge success">Generada/Actualizada</span></p>
-            <small><em>Consejo Automático:</em> Ejecuta <code>/generate_tests</code> para implementar una suite de
-                pruebas válida.</small>
         </section>
 
         <!-- 1. JERARQUÍA -->
@@ -287,13 +285,13 @@
                 </tr>
                 <tr>
                     <td><strong>1. Unitarios</strong></td>
-                    <td><span class="badge danger">Nulo (0%)</span></td>
-                    <td>Extraer las funciones matemáticas (<code>shuffle</code>) y manipuladores de arrays
-                        (<code>getAllWords</code>) a un fichero <code>utils.js</code> para validarlo con Jest.</td>
+                    <td><span class="badge success">Implementado (100% en src)</span></td>
+                    <td>Lógica pura (<code>shuffle</code>) extraída exitosamente a <code>utils.js</code> y probada al
+                        100% con 6 suites en Jest.</td>
                 </tr>
                 <tr>
                     <td><strong>2. Cobertura (Coverage)</strong></td>
-                    <td><span class="badge danger">Nulo (0%)</span></td>
+                    <td><span class="badge warning">Parcial</span></td>
                     <td>Configurar Jest coverage reporter (<code>jest --coverage</code>). Apuntar inicialmente a un 30%
                         en métodos de transformación de datos.</td>
                 </tr>

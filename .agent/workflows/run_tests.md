@@ -1,6 +1,8 @@
 ---
 description: Ejecutar la suite de tests y verificar cobertura
 ---
+> **REGLA RESTRICTIVA PARA EL AGENTE:** Si el usuario hace una pregunta sobre el código o este workflow, responde solo con texto. NO ejecutes este workflow automáticamente para intentar "solucionar" el problema a menos que el usuario use explícitamente el comando (ej. `@[/nombre_workflow]`) o pida expresamente ejecutarlo.
+
 
 Este workflow ejecuta la suite de testing automatizada del proyecto.
 

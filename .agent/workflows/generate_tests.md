@@ -1,6 +1,8 @@
 ---
 description: Generar tests unitarios iterativamente para el código
 ---
+> **REGLA RESTRICTIVA PARA EL AGENTE:** Si el usuario hace una pregunta sobre el código o este workflow, responde solo con texto. NO ejecutes este workflow automáticamente para intentar "solucionar" el problema a menos que el usuario use explícitamente el comando (ej. `@[/nombre_workflow]`) o pida expresamente ejecutarlo.
+
 
 Este workflow tiene como objetivo crear o actualizar una suite de pruebas para el proyecto. Dado que el proyecto usa Vanilla JS sin framework de tests pre-configurado, el agente deberá:
 

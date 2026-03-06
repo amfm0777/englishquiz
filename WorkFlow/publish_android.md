@@ -1,6 +1,8 @@
 ---
 description: Construir y preparar la aplicación Android para producción
 ---
+> **REGLA RESTRICTIVA PARA EL AGENTE:** Si el usuario hace una pregunta sobre el código o este workflow, responde solo con texto. NO ejecutes este workflow automáticamente para intentar "solucionar" el problema a menos que el usuario use explícitamente el comando (ej. `@[/nombre_workflow]`) o pida expresamente ejecutarlo.
+
 
 Este workflow automatiza la preparación, limpieza y construcción del App Bundle de la aplicación Capacitor para Android.
 

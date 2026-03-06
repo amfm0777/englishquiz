@@ -1,6 +1,8 @@
 ---
 description: Generar documentación completa del proyecto (Jerarquía, Código y Tests)
 ---
+> **REGLA RESTRICTIVA PARA EL AGENTE:** Si el usuario hace una pregunta sobre el código o este workflow, responde solo con texto. NO ejecutes este workflow automáticamente para intentar "solucionar" el problema a menos que el usuario use explícitamente el comando (ej. `@[/nombre_workflow]`) o pida expresamente ejecutarlo.
+
 
 Este workflow es una instrucción exhaustiva para que el agente inspeccione, analice en profundidad y documente automáticamente todo el estado actual del proyecto, generando finalmente una salida en formato HTML estático.
 
@@ -31,8 +33,9 @@ Este workflow es una instrucción exhaustiva para que el agente inspeccione, ana
        6. **Tracking**: ¿Existen pruebas sobre los eventos de analítica, clics, o seguimiento?
 
 4. **Generación Automática de Documentación HTML:**
+   - **CRÍTICO:** Ignora y sobrescribe completamente cualquier versión anterior de `docs/index.html`. No recicles análisis ni tablas viejas; debes generarlo 100% fresco basado en el estado *actual* del proyecto.
    - Agrupa toda la información recopilada en los pasos anteriores.
-   - Compila esta información construyendo un archivo HTML estructurado y navegable (`docs/index.html` o un nombre similar descriptivo).
+   - Compila esta información construyendo un nuevo archivo HTML estructurado y navegable (`docs/index.html` o un nombre similar descriptivo).
    - El HTML generado debe incluir estilos CSS básicos embebidos para que la documentación sea legible (índices, tablas de contenido, bloques de código, etc.).
 
 5. **Notificar Finalización:**

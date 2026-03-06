@@ -1,6 +1,8 @@
 ---
 description: Workflow Maestro - Compila, Testea, Publica y Documenta
 ---
+> **REGLA RESTRICTIVA PARA EL AGENTE:** Si el usuario hace una pregunta sobre el código o este workflow, responde solo con texto. NO ejecutes este workflow automáticamente para intentar "solucionar" el problema a menos que el usuario use explícitamente el comando (ej. `@[/nombre_workflow]`) o pida expresamente ejecutarlo.
+
 
 Este workflow unifica todos los procesos de salida y auditoría del proyecto "English App". Al ejecutar este workflow, el agente debe seguir estrictamente estos pasos:
 
