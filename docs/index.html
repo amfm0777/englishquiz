@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación del Proyecto: English App</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: var(--text-main);
+        }
+
+        header h1 {
+            color: white;
+            margin: 0;
+        }
+
+        h2 {
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+        }
+
+        h3 {
+            color: var(--primary);
+            margin-top: 1.5rem;
+        }
+
+        .code-block {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: monospace;
+            white-space: pre;
+            line-height: 1.5;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th,
+        td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .badge.danger {
+            background-color: var(--danger);
+        }
+
+        .badge.success {
+            background-color: var(--success);
+        }
+
+        .badge.warning {
+            background-color: var(--warning);
+        }
+
+        .badge.info {
+            background-color: var(--primary);
+        }
+
+        .metric-card {
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            background-color: #f8fafc;
+            margin-bottom: 1rem;
+            border-radius: 0 6px 6px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Documentación Integral del Proyecto</h1>
+        <p>English App - Reporte Automático Generado por el Agente</p>
+    </header>
+
+    <div class="container">
+        <!-- CI/CD STATUS BANNER -->
+        <section style="background-color: #fff1f2; border-left: 4px solid var(--danger);">
+            <h2 style="color: var(--danger); border-bottom-color: var(--danger);">🔴 Última Ejecución: Pipeline Abortado
+            </h2>
+            <p><strong>Fase 1 (Sintaxis Web):</strong> <span class="badge success">Pasó</span></p>
+            <p><strong>Fase 2 (Tests):</strong> <span class="badge danger">Falló</span> (Exit code 1 - Error: no test
+                specified)</p>
+            <p><strong>Fase 3 (Android Build):</strong> <span class="badge warning">Omitido</span> debido a fallo en
+                pruebas previas</p>
+            <p><strong>Fase 4 (Documentación):</strong> <span class="badge success">Generada/Actualizada</span></p>
+            <small><em>Consejo Automático:</em> Ejecuta <code>/generate_tests</code> para implementar una suite de
+                pruebas válida.</small>
+        </section>
+
+        <!-- 1. JERARQUÍA -->
+        <section>
+            <h2>1. Jerarquía del Proyecto</h2>
+            <p>El proyecto es una aplicación web híbrida (Capacitor) para aprendizaje de inglés. El código principal
+                reside en la carpeta <code>www/</code>.</p>
+
+            <div class="code-block">
+                C:\Users\azulp\englishapp\
+                ├── .agent/ # Flujos de trabajo automatizados para el agente AI
+                ├── android/ # Proyecto nativo Android generado por Capacitor
+                ├── docs/ # Documentación generada (este site) y Privacy Policy
+                ├── node_modules/ # Dependencias de npm
+                ├── WorkFlow/ # Respaldos manuales de flujos de trabajo (.md)
+                └── www/ # 🌟 Código fuente principal (Frontend Web)
+                ├── app.js # Lógica principal, UI y Controladores (Monolito)
+                ├── dictionary.js# Array estático con el diccionario base (Vanilla JS)
+                ├── index.html # Estructura del DOM principal (Single Page Application)
+                └── style.css # Estilos globales y utilidades
+            </div>
+        </section>
+
+        <!-- 2. ANÁLISIS DE CÓDIGO Y LÓGICA -->
+        <section>
+            <h2>2. Lógica de Negocio y Análisis Estático</h2>
+            <p>A continuación se analiza el fichero clave: <code>www/app.js</code>, que concentra la lógica de negocio.
+            </p>
+
+            <h3>Métodos Principales y Complejidad (Big-O)</h3>
+            <table>
+                <tr>
+                    <th>Función</th>
+                    <th>Propósito</th>
+                    <th>Complejidad T. (Big-O)</th>
+                    <th>Complejidad E. (Big-O)</th>
+                </tr>
+                <tr>
+                    <td><code>getAllWords()</code></td>
+                    <td>Combina diccionario base estático con localStorage</td>
+                    <td><span class="badge info">O(N)</span></td>
+                    <td><span class="badge warning">O(N)</span></td>
+                </tr>
+                <tr>
+                    <td><code>shuffle(arr)</code></td>
+                    <td>Algoritmo Fisher-Yates para barajar palabras (juego)</td>
+                    <td><span class="badge info">O(N)</span></td>
+                    <td><span class="badge success">O(1)</span></td>
+                </tr>
+                <tr>
+                    <td><code>generateQuestions()</code></td>
+                    <td>Filtra preguntas pasadas y selecciona elementos únicos aleatorios</td>
+                    <td><span class="badge warning">O(N²) peor caso</span>*</td>
+                    <td><span class="badge info">O(K)</span></td>
+                </tr>
+                <tr>
+                    <td><code>handleAnswer()</code></td>
+                    <td>Lógica del quiz, puntajes e interacciones UI</td>
+                    <td><span class="badge success">O(1)</span></td>
+                    <td><span class="badge success">O(1)</span></td>
+                </tr>
+                <tr>
+                    <td><code>renderDictionary()</code></td>
+                    <td>Filtra DOM y dibuja la lista en pantalla</td>
+                    <td><span class="badge info">O(N)</span></td>
+                    <td><span class="badge info">O(N)</span></td>
+                </tr>
+                <tr>
+                    <td><code>translateWord() / getPhonetic()</code></td>
+                    <td>Llamadas Fetch a APIs externas (MyMemory / Dictionary API)</td>
+                    <td><span class="badge success">O(1)**</span></td>
+                    <td><span class="badge success">O(1)**</span></td>
+                </tr>
+            </table>
+            <small>* <em>Depende del tamaño del slice de array y búsquedas `.includes()` iterativas.</em></small>
+            <br>
+            <small>** <em>O(1) a nivel de procesado JS asíncrono, pero dependiente de la latencia de red de las
+                    APIs.</em></small>
+
+            <h3>Code Review: Riesgos y Mejoras Detectadas</h3>
+            <div class="metric-card">
+                <h4>⚠️ Acoplamiento Fuerte con el DOM</h4>
+                <p>La lógica de negocio (puntajes, barajado, llamadas API) está en el mismo archivo que los
+                    manipuladores del DOM (<code>document.getElementById</code>, manipulaciones usando `.innerHTML`).
+                    <strong>Mejora:</strong> Separar en arquitectura de servicios o componentes (MVC).
+                </p>
+            </div>
+            <div class="metric-card">
+                <h4>⚠️ Cuello de botella en <code>getAllWords()</code></h4>
+                <p>Lee el localStorage (`JSON.parse`) y unifica arreglos linealmente cada vez que se requiere la lista.
+                    A medida que el usuario guarde cientos de palabras, bloqueará el hilo principal.
+                    <strong>Mejora:</strong> Almacenar el resultado unificado en memoria cache (`let cachedWords =
+                    null;`).
+                </p>
+            </div>
+            <div class="metric-card">
+                <h4>🚨 Vulnerabilidad de Seguridad (Admin Login)</h4>
+                <p>La autenticación en local (<code>handleLogin</code>) que se visualiza en `app.js` maneja tokens /
+                    contraseñas estáticas en lado del cliente, o simplemente muestra / oculta pantallas CSS. Este modo
+                    provee **cero** seguridad real. <strong>Mejora:</strong> Mover la autenticación a un Backend Real
+                    (Node/PHP) usando JWT o Firebase Auth.</p>
+            </div>
+        </section>
+
+        <!-- 3. TESTS -->
+        <section>
+            <h2>3. Auditoría de Testing</h2>
+            <p>Se realizó un escaneo profundo en el ecosistema buscando archivos <code>.test.js</code>,
+                <code>.spec.js</code> o configuraciones de Jest/Mocha. Los únicos tests encontrados pertenecen a la
+                carpeta auto-generada por Capacitor (Android instrumental básico) y dependencias de `node_modules`.
+                <strong>No existe framework de testing para el código del usuario.</strong>
+            </p>
+
+            <h3>Análisis de Mantenibilidad de Testing</h3>
+            <div class="metric-card">
+                <p><strong>Complejidad para Testear: ALTA</strong>. Debido a que `app.js` es un monolito acoplado
+                    directamente al objeto <code>window</code>, <code>document</code> y APIs web
+                    (<code>speechSynthesis</code>), realizar pruebas requiere de un entorno robusto como
+                    <strong>JSDOM</strong> o <strong>Cypress/Playwright</strong>. Emplear Jest clásico requeriría
+                    refactorización masiva para extraer pura lógica.
+                </p>
+            </div>
+
+            <h3>Caracterización de las Pruebas Actuales</h3>
+            <table>
+                <tr>
+                    <th>Dimensión</th>
+                    <th>Estado Actual</th>
+                    <th>Recomendación para Implementar</th>
+                </tr>
+                <tr>
+                    <td><strong>1. Unitarios</strong></td>
+                    <td><span class="badge danger">Nulo (0%)</span></td>
+                    <td>Extraer las funciones matemáticas (<code>shuffle</code>) y manipuladores de arrays
+                        (<code>getAllWords</code>) a un fichero <code>utils.js</code> para validarlo con Jest.</td>
+                </tr>
+                <tr>
+                    <td><strong>2. Cobertura (Coverage)</strong></td>
+                    <td><span class="badge danger">Nulo (0%)</span></td>
+                    <td>Configurar Jest coverage reporter (<code>jest --coverage</code>). Apuntar inicialmente a un 30%
+                        en métodos de transformación de datos.</td>
+                </tr>
+                <tr>
+                    <td><strong>3. Performance</strong></td>
+                    <td><span class="badge danger">Nulo</span></td>
+                    <td>Aplicar <strong>Lighthouse CI</strong> para vigilar métricas de Time To Interactive (TTI),
+                        particularmente útil debido al alto peso del DOM.</td>
+                </tr>
+                <tr>
+                    <td><strong>4. Memory Leak</strong></td>
+                    <td><span class="badge warning">No Probado</span></td>
+                    <td>Observar la persistencia de Audio Contexts/Speech Synthesis. Posibles fugas en listeners
+                        anidados o sin destruir (`.removeEventListener()`).</td>
+                </tr>
+                <tr>
+                    <td><strong>5. Usabilidad (E2E)</strong></td>
+                    <td><span class="badge danger">Manual solamente</span></td>
+                    <td>Instalar <strong>Cypress</strong> para asegurar que al hacer clic en "Traducir" la vista cambie
+                        fluidamente al diccionario o al Home.</td>
+                </tr>
+                <tr>
+                    <td><strong>6. Tracking</strong></td>
+                    <td><span class="badge danger">Nulo</span></td>
+                    <td>Instalar Google Analytics for Firebase. Sin tests actuales para verificar si los clics sobre los
+                        botones (Admob) están disparando analítica correcta.</td>
+                </tr>
+            </table>
+        </section>
+
+    </div>
+
+</body>
+
+</html>
