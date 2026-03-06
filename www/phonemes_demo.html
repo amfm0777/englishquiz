@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de Fonemas (Demo Local)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: #334155;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .phoneme-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #e2e8f0;
+        }
+
+        .phoneme-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .ipa-symbol {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Fallback for good IPA support */
+        }
+
+        .example-word {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .word-breakdown {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            background: #f1f5f9;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .btn-speak {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+            font-size: 1.5rem;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            margin-top: auto;
+        }
+
+        .btn-speak:hover {
+            background: #dcfce7;
+            transform: scale(1.1);
+        }
+
+        .btn-speak:active {
+            transform: scale(0.95);
+        }
+
+        .btn-speak.speaking {
+            background: #bbf7d0;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(74, 222, 128, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>📖 Tabla de Fonemas (Inglés)</h1>
+
+    <div style="max-width: 1200px; margin: 0 auto;">
+        <h2 class="section-title">Vocales (Vowels)</h2>
+        <div class="grid-container" id="vowels-container"></div>
+
+        <h2 class="section-title">Diptongos (Diphthongs)</h2>
+        <div class="grid-container" id="diphthongs-container"></div>
+
+        <h2 class="section-title">Consonantes (Consonants)</h2>
+        <div class="grid-container" id="consonants-container"></div>
+    </div>
+
+    <script>
+        const data = {
+            vowels: [
+                { ipa: "iː", example: "see", wordExample: "s /iː/" },
+                { ipa: "ɪ", example: "sit", wordExample: "s /ɪ/ t" },
+                { ipa: "e", example: "ten", wordExample: "t /e/ n" },
+                { ipa: "æ", example: "cat", wordExample: "c /æ/ t" },
+                { ipa: "ɑː", example: "father", wordExample: "f /ɑː/ th er" },
+                { ipa: "ɒ", example: "hot", wordExample: "h /ɒ/ t", us: "h /ɑ/ t" },
+                { ipa: "ɔː", example: "saw", wordExample: "s /ɔː/" },
+                { ipa: "ʊ", example: "put", wordExample: "p /ʊ/ t" },
+                { ipa: "uː", example: "too", wordExample: "t /uː/" },
+                { ipa: "ʌ", example: "cup", wordExample: "c /ʌ/ p" },
+                { ipa: "ɜː", example: "bird", wordExample: "b /ɜː/ d" },
+                { ipa: "ə", example: "about", wordExample: "/ə/ bout" }
+            ],
+            diphthongs: [
+                { ipa: "eɪ", example: "say", wordExample: "s /eɪ/" },
+                { ipa: "aɪ", example: "my", wordExample: "m /aɪ/" },
+                { ipa: "ɔɪ", "example": "boy", "wordExample": "b /ɔɪ/" },
+                { ipa: "aʊ", "example": "now", "wordExample": "n /aʊ/" },
+                { ipa: "əʊ", example: "go", wordExample: "g /əʊ/" },
+                { ipa: "ɪə", example: "near", wordExample: "n /ɪə/" },
+                { ipa: "eə", example: "hair", wordExample: "h /eə/" },
+                { ipa: "ʊə", example: "pure", wordExample: "p /jʊə/" }
+            ],
+            consonants: [
+                { ipa: "p", example: "pen", wordExample: "/p/ en" },
+                { ipa: "b", example: "bad", "wordExample": "/b/ ad" },
+                { ipa: "t", example: "tea", "wordExample": "/t/ ea" },
+                { ipa: "d", "example": "did", "wordExample": "/d/ id" },
+                { ipa: "k", example: "cat", "wordExample": "/k/ at" },
+                { ipa: "g", example: "got", "wordExample": "/g/ ot" },
+                { ipa: "tʃ", example: "chain", "wordExample": "/tʃ/ ain" },
+                { ipa: "dʒ", "example": "jam", "wordExample": "/dʒ/ am" },
+                { ipa: "f", "example": "fall", "wordExample": "/f/ all" },
+                { "ipa": "v", "example": "van", "wordExample": "/v/ an" },
+                { "ipa": "θ", "example": "thin", "wordExample": "/θ/ in" },
+                { "ipa": "ð", "example": "this", "wordExample": "/ð/ is" },
+                { "ipa": "s", "example": "see", "wordExample": "/s/ ee" },
+                { "ipa": "z", "example": "zoo", "wordExample": "/z/ oo" },
+                { "ipa": "ʃ", "example": "shoe", "wordExample": "/ʃ/ oe" },
+                { "ipa": "ʒ", "example": "vision", "wordExample": "vi /ʒ/ on" },
+                { "ipa": "h", "example": "hat", "wordExample": "/h/ at" },
+                { "ipa": "m", "example": "man", "wordExample": "/m/ an" },
+                { "ipa": "n", "example": "now", "wordExample": "/n/ ow" },
+                { "ipa": "ŋ", "example": "sing", "wordExample": "si /ŋ/" },
+                { "ipa": "l", "example": "leg", "wordExample": "/l/ eg" },
+                { "ipa": "r", "example": "red", "wordExample": "/r/ ed" },
+                { "ipa": "j", "example": "yes", "wordExample": "/j/ es" },
+                { "ipa": "w", "example": "wet", "wordExample": "/w/ et" }
+            ]
+        };
+
+        function speakWord(word, btnElement) {
+            if (!('speechSynthesis' in window)) {
+                alert("Tu navegador no soporta Text-to-Speech.");
+                return;
+            }
+
+            window.speechSynthesis.cancel(); // Stop current speech
+            const utterance = new SpeechSynthesisUtterance(word);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.85;
+
+            const voices = window.speechSynthesis.getVoices();
+            const enVoice = voices.find(v => v.lang.includes('en'));
+            if (enVoice) utterance.voice = enVoice;
+
+            if (btnElement) {
+                btnElement.classList.add('speaking');
+                utterance.onend = () => btnElement.classList.remove('speaking');
+                utterance.onerror = () => btnElement.classList.remove('speaking');
+            }
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function createCard(item) {
+            const card = document.createElement('div');
+            card.className = 'phoneme-card';
+
+            card.innerHTML = `
+        <div class="ipa-symbol">${item.ipa}</div>
+        <div class="example-word">${item.example}</div>
+        <div class="word-breakdown">${item.wordExample}</div>
+      `;
+
+            const btn = document.createElement('button');
+            btn.className = 'btn-speak';
+            btn.title = 'Escuchar ejemplo';
+            btn.innerHTML = '🔊';
+            btn.onclick = () => speakWord(item.example, btn);
+
+            card.appendChild(btn);
+            return card;
+        }
+
+        function renderGroup(groupId, items) {
+            const container = document.getElementById(groupId);
+            items.forEach(item => {
+                container.appendChild(createCard(item));
+            });
+        }
+
+        // Initialize voices (Chrome needs a trigger)
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.getVoices();
+        }
+
+        // Render everything
+        renderGroup('vowels-container', data.vowels);
+        renderGroup('diphthongs-container', data.diphthongs);
+        renderGroup('consonants-container', data.consonants);
+
+    </script>
+</body>
+
+</html>
