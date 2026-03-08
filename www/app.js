@@ -51,6 +51,7 @@ const screens = {
   game: document.getElementById('screen-game'),
   results: document.getElementById('screen-results'),
   dictionary: document.getElementById('screen-dictionary'),
+  phonemes: document.getElementById('screen-phonemes'),
   login: document.getElementById('screen-login'),
   admin: document.getElementById('screen-admin'),
 };
@@ -60,9 +61,11 @@ const els = {
   bestScoreHome: document.getElementById('best-score-home'),
   btnPlay: document.getElementById('btn-play'),
   btnDictionary: document.getElementById('btn-dictionary'),
+  btnPhonemes: document.getElementById('btn-phonemes'),
   btnSettings: document.getElementById('btn-settings'),
   btnBackGame: document.getElementById('btn-back-game'),
   btnBackDict: document.getElementById('btn-back-dict'),
+  btnBackPhonemes: document.getElementById('btn-back-phonemes'),
   btnPlayAgain: document.getElementById('btn-play-again'),
   btnHome: document.getElementById('btn-home'),
   questionCounter: document.getElementById('question-counter'),
@@ -87,6 +90,10 @@ const els = {
   scoreCircle: document.getElementById('score-circle'),
   searchInput: document.getElementById('search-input'),
   dictList: document.getElementById('dict-list'),
+  // Phonemes
+  vowelsContainer: document.getElementById('vowels-container'),
+  diphthongsContainer: document.getElementById('diphthongs-container'),
+  consonantsContainer: document.getElementById('consonants-container'),
   // Login
   btnBackLogin: document.getElementById('btn-back-login'),
   loginPassword: document.getElementById('login-password'),
@@ -431,6 +438,97 @@ function renderDictionary(filter = '') {
   `).join('');
 }
 
+// ============ PHONEMES ============
+const phonemesData = {
+  vowels: [
+    { ipa: "iː", example: "see", wordExample: "s /iː/" },
+    { ipa: "ɪ", example: "sit", wordExample: "s /ɪ/ t" },
+    { ipa: "e", example: "ten", wordExample: "t /e/ n" },
+    { ipa: "æ", example: "cat", wordExample: "c /æ/ t" },
+    { ipa: "ɑː", example: "father", wordExample: "f /ɑː/ th er" },
+    { ipa: "ɒ", example: "hot", wordExample: "h /ɒ/ t", us: "h /ɑ/ t" },
+    { ipa: "ɔː", example: "saw", wordExample: "s /ɔː/" },
+    { ipa: "ʊ", example: "put", wordExample: "p /ʊ/ t" },
+    { ipa: "uː", example: "too", wordExample: "t /uː/" },
+    { ipa: "ʌ", example: "cup", wordExample: "c /ʌ/ p" },
+    { ipa: "ɜː", example: "bird", wordExample: "b /ɜː/ d" },
+    { ipa: "ə", example: "about", wordExample: "/ə/ bout" }
+  ],
+  diphthongs: [
+    { ipa: "eɪ", example: "say", wordExample: "s /eɪ/" },
+    { ipa: "aɪ", example: "my", wordExample: "m /aɪ/" },
+    { ipa: "ɔɪ", "example": "boy", "wordExample": "b /ɔɪ/" },
+    { ipa: "aʊ", "example": "now", "wordExample": "n /aʊ/" },
+    { ipa: "əʊ", example: "go", wordExample: "g /əʊ/" },
+    { ipa: "ɪə", example: "near", wordExample: "n /ɪə/" },
+    { ipa: "eə", example: "hair", wordExample: "h /eə/" },
+    { ipa: "ʊə", example: "pure", wordExample: "p /jʊə/" }
+  ],
+  consonants: [
+    { ipa: "p", example: "pen", wordExample: "/p/ en" },
+    { ipa: "b", example: "bad", "wordExample": "/b/ ad" },
+    { ipa: "t", example: "tea", "wordExample": "/t/ ea" },
+    { ipa: "d", "example": "did", "wordExample": "/d/ id" },
+    { ipa: "k", example: "cat", "wordExample": "/k/ at" },
+    { ipa: "g", example: "got", "wordExample": "/g/ ot" },
+    { ipa: "tʃ", example: "chain", "wordExample": "/tʃ/ ain" },
+    { ipa: "dʒ", "example": "jam", "wordExample": "/dʒ/ am" },
+    { ipa: "f", "example": "fall", "wordExample": "/f/ all" },
+    { "ipa": "v", "example": "van", "wordExample": "/v/ an" },
+    { "ipa": "θ", "example": "thin", "wordExample": "/θ/ in" },
+    { "ipa": "ð", "example": "this", "wordExample": "/ð/ is" },
+    { "ipa": "s", "example": "see", "wordExample": "/s/ ee" },
+    { "ipa": "z", "example": "zoo", "wordExample": "/z/ oo" },
+    { "ipa": "ʃ", "example": "shoe", "wordExample": "/ʃ/ oe" },
+    { "ipa": "ʒ", "example": "vision", "wordExample": "vi /ʒ/ on" },
+    { "ipa": "h", "example": "hat", "wordExample": "/h/ at" },
+    { "ipa": "m", "example": "man", "wordExample": "/m/ an" },
+    { "ipa": "n", "example": "now", "wordExample": "/n/ ow" },
+    { "ipa": "ŋ", "example": "sing", "wordExample": "si /ŋ/" },
+    { "ipa": "l", "example": "leg", "wordExample": "/l/ eg" },
+    { "ipa": "r", "example": "red", "wordExample": "/r/ ed" },
+    { "ipa": "j", "example": "yes", "wordExample": "/j/ es" },
+    { "ipa": "w", "example": "wet", "wordExample": "/w/ et" }
+  ]
+};
+
+function createPhonemeCard(item) {
+  const card = document.createElement('div');
+  card.className = 'phoneme-card';
+
+  card.innerHTML = `
+    <div class="ipa-symbol">${item.ipa}</div>
+    <div class="example-word">${item.example}</div>
+    <div class="word-breakdown">${item.wordExample}</div>
+  `;
+
+  const btn = document.createElement('button');
+  btn.className = 'phoneme-btn-speak';
+  btn.title = 'Escuchar ejemplo';
+  btn.innerHTML = '🔊';
+  btn.onclick = () => speakWord(item.example); // Utiliza el TTS existente
+
+  card.appendChild(btn);
+  return card;
+}
+
+let phonemesRendered = false;
+function renderPhonemes() {
+  if (phonemesRendered) return;
+  phonemesRendered = true;
+
+  const renderGroup = (container, items) => {
+    container.innerHTML = '';
+    items.forEach(item => {
+      container.appendChild(createPhonemeCard(item));
+    });
+  };
+
+  renderGroup(els.vowelsContainer, phonemesData.vowels);
+  renderGroup(els.diphthongsContainer, phonemesData.diphthongs);
+  renderGroup(els.consonantsContainer, phonemesData.consonants);
+}
+
 // ============ LOGIN ============
 function handleLogin() {
   const pwd = els.loginPassword.value;
@@ -629,6 +727,10 @@ els.btnDictionary.addEventListener('click', () => {
 els.btnSettings.addEventListener('click', () => {
   showAdminPanel();
 });
+els.btnPhonemes.addEventListener('click', () => {
+  renderPhonemes();
+  showScreen('phonemes');
+});
 
 // Game
 els.btnBackGame.addEventListener('click', () => {
@@ -660,6 +762,11 @@ els.btnBackDict.addEventListener('click', () => {
 });
 els.searchInput.addEventListener('input', (e) => {
   renderDictionary(e.target.value);
+});
+
+// Phonemes
+els.btnBackPhonemes.addEventListener('click', () => {
+  showScreen('home');
 });
 
 // Login

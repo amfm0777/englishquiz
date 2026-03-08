@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>English Quiz - Aprende Inglés</title>
-  <meta name="description" content="Juego de vocabulario inglés-español. Aprende palabras en inglés de forma divertida.">
+  <meta name="description"
+    content="Juego de vocabulario inglés-español. Aprende palabras en inglés de forma divertida.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <!-- ============ PANTALLA INICIO ============ -->
   <div id="screen-home" class="screen active">
@@ -33,6 +37,9 @@
       </button>
       <button class="btn-secondary" id="btn-dictionary">
         <span>📖</span> Diccionario
+      </button>
+      <button class="btn-secondary" id="btn-phonemes">
+        <span>🗣️</span> Fonemas
       </button>
     </div>
   </div>
@@ -119,6 +126,26 @@
     </div>
   </div>
 
+  <!-- ============ PANTALLA FONEMAS ============ -->
+  <div id="screen-phonemes" class="screen">
+    <div class="phonemes-header">
+      <button class="btn-back" id="btn-back-phonemes">←</button>
+      <h2>🗣️ Fonemas</h2>
+      <div></div>
+    </div>
+    <div class="phonemes-container">
+      <h2 class="section-title">Vocales (Vowels)</h2>
+      <div class="grid-container" id="vowels-container"></div>
+
+      <h2 class="section-title">Diptongos (Diphthongs)</h2>
+      <div class="grid-container" id="diphthongs-container"></div>
+
+      <h2 class="section-title">Consonantes (Consonants)</h2>
+      <div class="grid-container" id="consonants-container"></div>
+    </div>
+  </div>
+
   <script src="app.js"></script>
 </body>
+
 </html>
