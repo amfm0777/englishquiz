@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archivos Principales - English Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-bg: #e0e7ff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --bg-page: #f8fafc;
+            --bg-card: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        .file-grid {
+            display: grid;
+            gap: 24px;
+        }
+
+        .file-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            border-left: 6px solid var(--primary);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .file-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 12px;
+        }
+
+        .file-name {
+            font-family: monospace;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-icon {
+            font-size: 24px;
+        }
+
+        .badge-list {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: var(--primary-bg);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .file-desc {
+            color: #475569;
+            font-size: 1rem;
+            margin-bottom: 16px;
+        }
+
+        .file-responsibilities {
+            margin: 0;
+            padding-left: 20px;
+            color: #334155;
+        }
+
+        .file-responsibilities li {
+            margin-bottom: 6px;
+        }
+
+        .file-responsibilities li strong {
+            color: var(--text-main);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <a href="index.html" class="back-link">← Volver al Documento Principal</a>
+
+        <header>
+            <h1>Arquitectura Core del Juego</h1>
+            <p class="subtitle">Desglose de los ficheros esenciales que componen la lógica, diseño y estructura visual
+                de English Quiz. Esta vista ignora configuraciones de entorno y se centra exclusivamente en el código
+                útil de la aplicación.</p>
+        </header>
+
+        <div class="file-grid">
+
+            <!-- index.html -->
+            <div class="file-card">
+                <div class="file-header">
+                    <div class="file-name"><span class="file-icon">🏗️</span> www/index.html</div>
+                    <div class="badge-list">
+                        <span class="badge">Estructura UI</span>
+                        <span class="badge">Vistas</span>
+                    </div>
+                </div>
+                <p class="file-desc">El esqueleto principal de la aplicación. Define el layout completo bajo una
+                    arquitectura de Single Page Application (SPA).</p>
+                <ul class="file-responsibilities">
+                    <li><strong>Contenedores de Pantalla:</strong> Define todos los div principales que actúan como
+                        "pantallas" (`screen-home`, `screen-game`, `screen-dictionary`, `screen-phonemes`,
+                        `screen-admin`).</li>
+                    <li><strong>Estructura DOM:</strong> Plantillas para los botones flotantes, modales de feedback
+                        (acierto/error), paneles laterales y animaciones base.</li>
+                    <li><strong>Importación:</strong> Punto de entrada único donde se cargan los estilos CSS y los
+                        scripts JS.</li>
+                </ul>
+            </div>
+
+            <!-- app.js -->
+            <div class="file-card">
+                <div class="file-header">
+                    <div class="file-name"><span class="file-icon">⚙️</span> www/app.js</div>
+                    <div class="badge-list">
+                        <span class="badge">Lógica de Juego</span>
+                        <span class="badge">Estado Global</span>
+                    </div>
+                </div>
+                <p class="file-desc">El motor cognitivo del juego. Contiene toda la lógica de estado y las recciones a
+                    los eventos del usuario.</p>
+                <ul class="file-responsibilities">
+                    <li><strong>State Management:</strong> Maneja variables globales como `gameState` (preguntas, índice
+                        actual, puntuación) y `currentGameMode` (palabras o fonemas).</li>
+                    <li><strong>Navegación:</strong> Función `showScreen()` que gestiona la visibilidad de las distintas
+                        pantallas (activando y desactivando clases CSS).</li>
+                    <li><strong>Lógica de Quiz:</strong> Controla el bucle principal de las partidas: seleccionar
+                        preguntas con `shuffle()`, inyectarlas al DOM, verificar si son correctas y manejar la pantalla
+                        final de resultados.</li>
+                    <li><strong>Panel de Control:</strong> Configuración e interfaz para que el padre administre y añada
+                        nuevas palabras utilizando la API de MyMemory para las traducciones automáticas.</li>
+                    <li><strong>Text-To-Speech (TTS):</strong> Integración con la voz nativa de Capacitor y un fallback
+                        de Web Speech API para leer las palabras en inglés (`speakWord()`).</li>
+                </ul>
+            </div>
+
+            <!-- style.css -->
+            <div class="file-card">
+                <div class="file-header">
+                    <div class="file-name"><span class="file-icon">🎨</span> www/style.css</div>
+                    <div class="badge-list">
+                        <span class="badge">Diseño</span>
+                        <span class="badge">Animaciones</span>
+                    </div>
+                </div>
+                <p class="file-desc">Hoja de estilos responsable del look & feel avanzado y moderno de la aplicación
+                    (modo oscuro azulado).</p>
+                <ul class="file-responsibilities">
+                    <li><strong>Sistema de Diseño:</strong> Centraliza colores y dimensiones utilizando variables CSS en
+                        `:root`.</li>
+                    <li><strong>Responsive Flexbox/Grid:</strong> Gestiona la adaptación de las pantallas, el menú, y la
+                        lista del diccionario para todos los tamaños de dispositivos móviles.</li>
+                    <li><strong>Micro-interacciones:</strong> Define las transiciones CSS al pasar el ratón (hover) de
+                        botones y las impresionantes animaciones keyframe como `shake` (error), `pop` (acierto) y
+                        efectos de aura (`pulse-speak` y circulos SVG).</li>
+                </ul>
+            </div>
+
+            <!-- dictionary.js -->
+            <div class="file-card">
+                <div class="file-header">
+                    <div class="file-name"><span class="file-icon">📚</span> www/dictionary.js</div>
+                    <div class="badge-list">
+                        <span class="badge">Base de Datos</span>
+                        <span class="badge">Estática</span>
+                    </div>
+                </div>
+                <p class="file-desc">La fuente inicial de la verdad (Seed Data) para el vocabulario de la app, que luego
+                    se fusiona en `app.js` con las palabras creadas por el usuario en localStorage.</p>
+                <ul class="file-responsibilities">
+                    <li><strong>Constante Global:</strong> Exporta una matriz de objetos con IDs únicos llamada
+                        `DICTIONARY`.</li>
+                    <li><strong>Estructura de Datos:</strong> Cada palabra incluye las claves `en` (Inglés), `es`
+                        (Español) y `ph` (Transcripción Fonética).</li>
+                </ul>
+            </div>
+
+            <!-- utils.js -->
+            <div class="file-card">
+                <div class="file-header">
+                    <div class="file-name"><span class="file-icon">🔧</span> www/utils.js</div>
+                    <div class="badge-list">
+                        <span class="badge">Helpers genéricos</span>
+                    </div>
+                </div>
+                <p class="file-desc">Pequeña librería de funciones utilitarias que no dependen del estado concreto del
+                    juego.</p>
+                <ul class="file-responsibilities">
+                    <li><strong>Algoritmos Reutilizables:</strong> Contiene funciones matemáticas puras, esencialmente
+                        enfocadas en como barajar los arrays de opciones para el Quiz usando un algoritmo seguro tipo
+                        Fisher-Yates (`shuffle()`).</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
