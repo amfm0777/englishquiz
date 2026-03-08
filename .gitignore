@@ -10,3 +10,4 @@ build/
 package-lock.json
 .gitignore
 package-lock.json
+android/keystore.properties
