@@ -474,6 +474,34 @@ body {
   }
 }
 
+.btn-speak-large {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.15);
+  border: 2px solid rgba(99, 102, 241, 0.3);
+  font-size: 36px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  margin: 10px auto;
+}
+
+.btn-speak-large:hover {
+  background: rgba(99, 102, 241, 0.3);
+  transform: scale(1.1);
+}
+
+.btn-speak-large:active {
+  transform: scale(0.95);
+}
+
+.btn-speak-large.speaking {
+  animation: pulse-speak 0.8s ease-in-out infinite;
+}
+
 /* ============ OPTIONS ============ */
 .options-container {
   width: 100%;
@@ -514,6 +542,32 @@ body {
   font-weight: 700;
   color: var(--accent-light);
   flex-shrink: 0;
+}
+
+.phonemes-options {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.phonemes-options .option-btn {
+  width: calc(33.333% - 11px);
+  min-width: 80px;
+  padding: 16px;
+  justify-content: center;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.phonemes-options .option-btn .option-letter {
+  display: none;
+}
+
+.phonemes-options .option-text {
+  font-family: inherit;
+  font-weight: 800;
 }
 
 .option-btn:hover:not(.disabled) {

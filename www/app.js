@@ -42,6 +42,8 @@ let gameState = {
 };
 
 let bestScore = parseInt(localStorage.getItem('englishQuiz_bestScore') || '0');
+let bestPhonemesScore = parseInt(localStorage.getItem('englishQuiz_bestPhonemesScore') || '0');
+let currentGameMode = 'words'; // 'words' | 'phonemes'
 let currentDirection = 'en-es'; // translation direction
 let phoneticCache = {}; // cache IPA lookups
 
@@ -61,9 +63,11 @@ const els = {
   bestScoreHome: document.getElementById('best-score-home'),
   btnPlay: document.getElementById('btn-play'),
   btnDictionary: document.getElementById('btn-dictionary'),
-  btnPhonemes: document.getElementById('btn-phonemes'),
+  btnPhonemes: document.getElementById('btn-phonemes'), // Now starts the game
   btnSettings: document.getElementById('btn-settings'),
   btnBackGame: document.getElementById('btn-back-game'),
+  btnBackPhonemesGame: document.getElementById('btn-back-phonemes-game'),
+  btnPhonemesTable: document.getElementById('btn-phonemes-table'),
   btnBackDict: document.getElementById('btn-back-dict'),
   btnBackPhonemes: document.getElementById('btn-back-phonemes'),
   btnPlayAgain: document.getElementById('btn-play-again'),
@@ -80,6 +84,20 @@ const els = {
   feedbackIcon: document.getElementById('feedback-icon'),
   feedbackText: document.getElementById('feedback-text'),
   feedbackAnswer: document.getElementById('feedback-answer'),
+
+  // Phonemes Game
+  screenPhonemesGame: document.getElementById('screen-phonemes-game'),
+  phonemesQuestionCounter: document.getElementById('phonemes-question-counter'),
+  phonemesCurrentScore: document.getElementById('phonemes-current-score'),
+  phonemesProgressBar: document.getElementById('phonemes-progress-bar'),
+  phonemesWordCard: document.getElementById('phonemes-word-card'),
+  btnSpeakPhoneme: document.getElementById('btn-speak-phoneme'),
+  phonemesOptionsContainer: document.getElementById('phonemes-options-container'),
+  phonemesFeedbackOverlay: document.getElementById('phonemes-feedback-overlay'),
+  phonemesFeedbackIcon: document.getElementById('phonemes-feedback-icon'),
+  phonemesFeedbackText: document.getElementById('phonemes-feedback-text'),
+  phonemesFeedbackAnswer: document.getElementById('phonemes-feedback-answer'),
+
   resultsEmoji: document.getElementById('results-emoji'),
   resultsTitle: document.getElementById('results-title'),
   finalScore: document.getElementById('final-score'),
@@ -150,7 +168,16 @@ const els = {
 // ============ NAVIGATION ============
 function showScreen(name) {
   Object.values(screens).forEach(s => s.classList.remove('active'));
-  screens[name].classList.add('active');
+  // Special case for phonemes game which is not in the screens object initially
+  if (els.screenPhonemesGame) {
+    els.screenPhonemesGame.classList.remove('active');
+  }
+
+  if (name === 'phonemes-game') {
+    els.screenPhonemesGame.classList.add('active');
+  } else if (screens[name]) {
+    screens[name].classList.add('active');
+  }
 }
 
 // ============ PRONUNCIATION (Native TTS + Web Speech API fallback) ============
@@ -236,6 +263,7 @@ async function translateWord(word, langPair) {
 function updateHome() {
   const all = getAllWords();
   els.totalWords.textContent = all.length;
+  // Note: we can show bestScoreHome or bestPhonemesScore depending on preference
   els.bestScoreHome.textContent = bestScore;
 }
 
@@ -261,6 +289,7 @@ function generateQuestions() {
 }
 
 function startGame() {
+  currentGameMode = 'words';
   const all = getAllWords();
   if (all.length < 3) {
     alert('El diccionario necesita al menos 3 palabras para jugar.');
@@ -371,9 +400,16 @@ function showResults() {
   const total = gameState.totalQuestions;
   const pct = score / total;
 
-  if (score > bestScore) {
-    bestScore = score;
-    localStorage.setItem('englishQuiz_bestScore', bestScore.toString());
+  if (currentGameMode === 'words') {
+    if (score > bestScore) {
+      bestScore = score;
+      localStorage.setItem('englishQuiz_bestScore', bestScore.toString());
+    }
+  } else if (currentGameMode === 'phonemes') {
+    if (score > bestPhonemesScore) {
+      bestPhonemesScore = score;
+      localStorage.setItem('englishQuiz_bestPhonemesScore', bestPhonemesScore.toString());
+    }
   }
 
   if (pct >= 0.9) {
@@ -527,6 +563,119 @@ function renderPhonemes() {
   renderGroup(els.vowelsContainer, phonemesData.vowels);
   renderGroup(els.diphthongsContainer, phonemesData.diphthongs);
   renderGroup(els.consonantsContainer, phonemesData.consonants);
+}
+
+// ============ PHONEMES GAME ============
+function startPhonemesGame() {
+  currentGameMode = 'phonemes';
+  const allPhonemes = [
+    ...phonemesData.vowels,
+    ...phonemesData.diphthongs,
+    ...phonemesData.consonants
+  ];
+
+  const shuffled = shuffle(allPhonemes);
+  const numQuestions = Math.min(QUESTIONS_PER_GAME, allPhonemes.length);
+  const selected = shuffled.slice(0, numQuestions);
+
+  gameState = {
+    questions: selected.map(phoneme => {
+      const wrongPool = allPhonemes.filter(p => p.ipa !== phoneme.ipa);
+      const wrongAnswers = shuffle(wrongPool).slice(0, 2).map(p => p.ipa);
+      const options = shuffle([phoneme.ipa, ...wrongAnswers]);
+
+      return {
+        word: phoneme, // Reusing `word` key but it's a phoneme object
+        options: options,
+        correctAnswer: phoneme.ipa,
+      };
+    }),
+    currentIndex: 0,
+    score: 0,
+    answered: false,
+    totalQuestions: numQuestions,
+  };
+
+  showScreen('phonemes-game');
+  renderPhonemesQuestion();
+}
+
+function renderPhonemesQuestion() {
+  const q = gameState.questions[gameState.currentIndex];
+  const total = gameState.totalQuestions;
+  gameState.answered = false;
+
+  els.phonemesQuestionCounter.textContent = `${gameState.currentIndex + 1} / ${total}`;
+  els.phonemesCurrentScore.textContent = gameState.score;
+  els.phonemesProgressBar.style.width = `${((gameState.currentIndex) / total) * 100}%`;
+
+  els.phonemesWordCard.style.animation = 'none';
+  void els.phonemesWordCard.offsetHeight;
+  els.phonemesWordCard.style.animation = 'card-in 0.4s ease';
+
+  // Auto-speak the example word
+  setTimeout(() => speakWord(q.word.example), 300);
+
+  // Update speak button
+  els.btnSpeakPhoneme.onclick = () => speakWord(q.word.example);
+
+  els.phonemesOptionsContainer.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `
+      <span class="option-letter">${LETTERS[i]}</span>
+      <span class="option-text">${opt}</span>
+    `;
+    btn.addEventListener('click', () => handlePhonemesAnswer(btn, opt, q));
+    els.phonemesOptionsContainer.appendChild(btn);
+  });
+
+  els.phonemesFeedbackOverlay.classList.remove('show');
+}
+
+function handlePhonemesAnswer(btn, selected, question) {
+  if (gameState.answered) return;
+  gameState.answered = true;
+
+  const isCorrect = selected === question.correctAnswer;
+  const allBtns = els.phonemesOptionsContainer.querySelectorAll('.option-btn');
+
+  allBtns.forEach(b => b.classList.add('disabled'));
+
+  if (isCorrect) {
+    gameState.score++;
+    btn.classList.add('correct');
+    els.phonemesFeedbackIcon.textContent = '✅';
+    els.phonemesFeedbackText.textContent = '¡Correcto!';
+    els.phonemesFeedbackText.style.color = '#22c55e';
+    els.phonemesFeedbackAnswer.textContent = '';
+  } else {
+    btn.classList.add('wrong');
+    allBtns.forEach(b => {
+      // Find and highlight correct answer
+      if (b.querySelector('.option-text').textContent === question.correctAnswer) {
+        b.classList.add('correct');
+        b.classList.remove('disabled');
+      }
+    });
+    els.phonemesFeedbackIcon.textContent = '❌';
+    els.phonemesFeedbackText.textContent = 'Incorrecto';
+    els.phonemesFeedbackText.style.color = '#ef4444';
+    els.phonemesFeedbackAnswer.textContent = `Era /${question.correctAnswer}/ como en "${question.word.example}"`;
+  }
+
+  els.phonemesCurrentScore.textContent = gameState.score;
+  els.phonemesFeedbackOverlay.classList.add('show');
+
+  setTimeout(() => {
+    gameState.currentIndex++;
+    if (gameState.currentIndex < gameState.totalQuestions) {
+      renderPhonemesQuestion();
+    } else {
+      showResults();
+    }
+  }, FEEDBACK_DELAY);
 }
 
 // ============ LOGIN ============
@@ -728,8 +877,7 @@ els.btnSettings.addEventListener('click', () => {
   showAdminPanel();
 });
 els.btnPhonemes.addEventListener('click', () => {
-  renderPhonemes();
-  showScreen('phonemes');
+  startPhonemesGame();
 });
 
 // Game
@@ -744,13 +892,38 @@ els.btnBackGame.addEventListener('click', () => {
   showScreen('home');
   updateHome();
 });
+if (els.btnBackPhonemesGame) {
+  els.btnBackPhonemesGame.addEventListener('click', () => {
+    // Stop any speech in progress
+    if (window.Capacitor && window.Capacitor.isNativePlatform()) {
+      const { TextToSpeech } = window.Capacitor.Plugins;
+      if (TextToSpeech) TextToSpeech.stop();
+    } else if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    showScreen('home');
+    updateHome();
+  });
+}
+if (els.btnPhonemesTable) {
+  els.btnPhonemesTable.addEventListener('click', () => {
+    renderPhonemes();
+    showScreen('phonemes');
+  });
+}
 els.btnSpeak.addEventListener('click', () => {
   const word = els.wordEnglish.textContent;
   speakWord(word);
 });
 
 // Results
-els.btnPlayAgain.addEventListener('click', startGame);
+els.btnPlayAgain.addEventListener('click', () => {
+  if (currentGameMode === 'phonemes') {
+    startPhonemesGame();
+  } else {
+    startGame();
+  }
+});
 els.btnHome.addEventListener('click', () => {
   showScreen('home');
   updateHome();
@@ -764,9 +937,9 @@ els.searchInput.addEventListener('input', (e) => {
   renderDictionary(e.target.value);
 });
 
-// Phonemes
+// Phonemes Table (Theory)
 els.btnBackPhonemes.addEventListener('click', () => {
-  showScreen('home');
+  showScreen('phonemes-game');
 });
 
 // Login

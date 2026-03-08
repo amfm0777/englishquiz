@@ -40,7 +40,7 @@
         <span>📖</span> Diccionario
       </button>
       <button class="btn-secondary" id="btn-phonemes">
-        <span>🗣️</span> Fonemas
+        <span>🗣️</span> Quiz de Fonemas
       </button>
     </div>
   </div>
@@ -129,11 +129,11 @@
     </div>
   </div>
 
-  <!-- ============ PANTALLA FONEMAS ============ -->
+  <!-- ============ PANTALLA FONEMAS (TEORÍA) ============ -->
   <div id="screen-phonemes" class="screen">
     <div class="phonemes-header">
       <button class="btn-back" id="btn-back-phonemes">←</button>
-      <h2>🗣️ Fonemas</h2>
+      <h2>� Tabla de Fonemas</h2>
       <div></div>
     </div>
     <div class="phonemes-container">
@@ -145,6 +145,40 @@
 
       <h2 class="section-title">Consonantes (Consonants)</h2>
       <div class="grid-container" id="consonants-container"></div>
+    </div>
+  </div>
+
+  <!-- ============ PANTALLA JUEGO FONEMAS ============ -->
+  <div id="screen-phonemes-game" class="screen">
+    <div class="game-header">
+      <button class="btn-back" id="btn-back-phonemes-game">✕</button>
+      <div class="progress-info">
+        <span id="phonemes-question-counter">1 / 10</span>
+      </div>
+      <div class="score-badge">
+        <span>⭐</span> <span id="phonemes-current-score">0</span>
+      </div>
+      <button class="btn-icon" id="btn-phonemes-table" title="Ver tabla de fonemas"
+        style="margin-left: 10px;">📖</button>
+    </div>
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="phonemes-progress-bar"></div>
+    </div>
+    <div class="game-content">
+      <div class="word-card" id="phonemes-word-card">
+        <p class="word-label">¿Qué sonido escuchas?</p>
+        <button class="btn-speak-large" id="btn-speak-phoneme" title="Escuchar sonido">🔊</button>
+      </div>
+      <div class="options-container phonemes-options" id="phonemes-options-container">
+        <!-- Opciones generadas por JS -->
+      </div>
+    </div>
+    <div class="feedback-overlay" id="phonemes-feedback-overlay">
+      <div class="feedback-content" id="phonemes-feedback-content">
+        <div class="feedback-icon" id="phonemes-feedback-icon">✅</div>
+        <p class="feedback-text" id="phonemes-feedback-text">¡Correcto!</p>
+        <p class="feedback-answer" id="phonemes-feedback-answer"></p>
+      </div>
     </div>
   </div>
 
