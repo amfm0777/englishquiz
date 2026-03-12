@@ -475,58 +475,7 @@ function renderDictionary(filter = '') {
 }
 
 // ============ PHONEMES ============
-const phonemesData = {
-  vowels: [
-    { ipa: "iː", example: "see", wordExample: "s /iː/" },
-    { ipa: "ɪ", example: "sit", wordExample: "s /ɪ/ t" },
-    { ipa: "e", example: "ten", wordExample: "t /e/ n" },
-    { ipa: "æ", example: "cat", wordExample: "c /æ/ t" },
-    { ipa: "ɑː", example: "father", wordExample: "f /ɑː/ th er" },
-    { ipa: "ɒ", example: "hot", wordExample: "h /ɒ/ t", us: "h /ɑ/ t" },
-    { ipa: "ɔː", example: "saw", wordExample: "s /ɔː/" },
-    { ipa: "ʊ", example: "put", wordExample: "p /ʊ/ t" },
-    { ipa: "uː", example: "too", wordExample: "t /uː/" },
-    { ipa: "ʌ", example: "cup", wordExample: "c /ʌ/ p" },
-    { ipa: "ɜː", example: "bird", wordExample: "b /ɜː/ d" },
-    { ipa: "ə", example: "about", wordExample: "/ə/ bout" }
-  ],
-  diphthongs: [
-    { ipa: "eɪ", example: "say", wordExample: "s /eɪ/" },
-    { ipa: "aɪ", example: "my", wordExample: "m /aɪ/" },
-    { ipa: "ɔɪ", "example": "boy", "wordExample": "b /ɔɪ/" },
-    { ipa: "aʊ", "example": "now", "wordExample": "n /aʊ/" },
-    { ipa: "əʊ", example: "go", wordExample: "g /əʊ/" },
-    { ipa: "ɪə", example: "near", wordExample: "n /ɪə/" },
-    { ipa: "eə", example: "hair", wordExample: "h /eə/" },
-    { ipa: "ʊə", example: "pure", wordExample: "p /jʊə/" }
-  ],
-  consonants: [
-    { ipa: "p", example: "pen", wordExample: "/p/ en" },
-    { ipa: "b", example: "bad", "wordExample": "/b/ ad" },
-    { ipa: "t", example: "tea", "wordExample": "/t/ ea" },
-    { ipa: "d", "example": "did", "wordExample": "/d/ id" },
-    { ipa: "k", example: "cat", "wordExample": "/k/ at" },
-    { ipa: "g", example: "got", "wordExample": "/g/ ot" },
-    { ipa: "tʃ", example: "chain", "wordExample": "/tʃ/ ain" },
-    { ipa: "dʒ", "example": "jam", "wordExample": "/dʒ/ am" },
-    { ipa: "f", "example": "fall", "wordExample": "/f/ all" },
-    { "ipa": "v", "example": "van", "wordExample": "/v/ an" },
-    { "ipa": "θ", "example": "thin", "wordExample": "/θ/ in" },
-    { "ipa": "ð", "example": "this", "wordExample": "/ð/ is" },
-    { "ipa": "s", "example": "see", "wordExample": "/s/ ee" },
-    { "ipa": "z", "example": "zoo", "wordExample": "/z/ oo" },
-    { "ipa": "ʃ", "example": "shoe", "wordExample": "/ʃ/ oe" },
-    { "ipa": "ʒ", "example": "vision", "wordExample": "vi /ʒ/ on" },
-    { "ipa": "h", "example": "hat", "wordExample": "/h/ at" },
-    { "ipa": "m", "example": "man", "wordExample": "/m/ an" },
-    { "ipa": "n", "example": "now", "wordExample": "/n/ ow" },
-    { "ipa": "ŋ", "example": "sing", "wordExample": "si /ŋ/" },
-    { "ipa": "l", "example": "leg", "wordExample": "/l/ eg" },
-    { "ipa": "r", "example": "red", "wordExample": "/r/ ed" },
-    { "ipa": "j", "example": "yes", "wordExample": "/j/ es" },
-    { "ipa": "w", "example": "wet", "wordExample": "/w/ et" }
-  ]
-};
+// phonemesData is now loaded globally from phonemes.js
 
 function createPhonemeCard(item) {
   const card = document.createElement('div');
@@ -553,26 +502,52 @@ function renderPhonemes() {
   if (phonemesRendered) return;
   phonemesRendered = true;
 
-  const renderGroup = (container, items) => {
-    container.innerHTML = '';
+  const renderGroup = (containerId, title, items) => {
+    if (!items || items.length === 0) return;
+
+    // Create section dynamically if needed or find existing container
+    const phonemesContainer = document.querySelector('.phonemes-container');
+
+    // Create title
+    const titleEl = document.createElement('h2');
+    titleEl.className = 'section-title';
+    titleEl.textContent = title;
+    phonemesContainer.appendChild(titleEl);
+
+    // Create grid container
+    const grid = document.createElement('div');
+    grid.className = 'phonemes-grid';
+    grid.id = containerId;
+
     items.forEach(item => {
-      container.appendChild(createPhonemeCard(item));
+      grid.appendChild(createPhonemeCard(item));
     });
+
+    phonemesContainer.appendChild(grid);
   };
 
-  renderGroup(els.vowelsContainer, phonemesData.vowels);
-  renderGroup(els.diphthongsContainer, phonemesData.diphthongs);
-  renderGroup(els.consonantsContainer, phonemesData.consonants);
+  // Clear existing static containers to inject dynamically
+  const container = document.querySelector('.phonemes-container');
+  container.innerHTML = '';
+
+  // Render what's available
+  if (phonemesData.vowels) renderGroup('vowels-container', 'Vocales / Voyelles', phonemesData.vowels);
+  if (phonemesData.diphthongs) renderGroup('diphthongs-container', 'Diptongos / Diphthongs', phonemesData.diphthongs);
+  if (phonemesData.nasals) renderGroup('nasals-container', 'Nasales / Nasals', phonemesData.nasals);
+  if (phonemesData.consonants) renderGroup('consonants-container', 'Consonantes / Consonnes', phonemesData.consonants);
 }
 
 // ============ PHONEMES GAME ============
 function startPhonemesGame() {
   currentGameMode = 'phonemes';
-  const allPhonemes = [
-    ...phonemesData.vowels,
-    ...phonemesData.diphthongs,
-    ...phonemesData.consonants
-  ];
+
+  // Dynamically extract all phonemes regardless of category mapping (English vs French structure)
+  const allPhonemes = [];
+  for (const key in phonemesData) {
+    if (Array.isArray(phonemesData[key])) {
+      allPhonemes.push(...phonemesData[key]);
+    }
+  }
 
   const shuffled = shuffle(allPhonemes);
   const numQuestions = Math.min(QUESTIONS_PER_GAME, allPhonemes.length);

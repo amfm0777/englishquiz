@@ -1,0 +1,52 @@
+const phonemesData = {
+    vowels: [
+        { ipa: "iː", example: "see", wordExample: "s /iː/" },
+        { ipa: "ɪ", example: "sit", wordExample: "s /ɪ/ t" },
+        { ipa: "e", example: "ten", wordExample: "t /e/ n" },
+        { ipa: "æ", example: "cat", wordExample: "c /æ/ t" },
+        { ipa: "ɑː", example: "father", wordExample: "f /ɑː/ th er" },
+        { ipa: "ɒ", example: "hot", wordExample: "h /ɒ/ t", us: "h /ɑ/ t" },
+        { ipa: "ɔː", example: "saw", wordExample: "s /ɔː/" },
+        { ipa: "ʊ", example: "put", wordExample: "p /ʊ/ t" },
+        { ipa: "uː", example: "too", wordExample: "t /uː/" },
+        { ipa: "ʌ", example: "cup", wordExample: "c /ʌ/ p" },
+        { ipa: "ɜː", example: "bird", wordExample: "b /ɜː/ d" },
+        { ipa: "ə", example: "about", wordExample: "/ə/ bout" }
+    ],
+    diphthongs: [
+        { ipa: "eɪ", example: "say", wordExample: "s /eɪ/" },
+        { ipa: "aɪ", example: "my", wordExample: "m /aɪ/" },
+        { ipa: "ɔɪ", example: "boy", wordExample: "b /ɔɪ/" },
+        { ipa: "aʊ", example: "now", wordExample: "n /aʊ/" },
+        { ipa: "əʊ", example: "go", wordExample: "g /əʊ/" },
+        { ipa: "ɪə", example: "near", wordExample: "n /ɪə/" },
+        { ipa: "eə", example: "hair", wordExample: "h /eə/" },
+        { ipa: "ʊə", example: "pure", wordExample: "p /jʊə/" }
+    ],
+    consonants: [
+        { ipa: "p", example: "pen", wordExample: "/p/ en" },
+        { ipa: "b", example: "bad", wordExample: "/b/ ad" },
+        { ipa: "t", example: "tea", wordExample: "/t/ ea" },
+        { ipa: "d", example: "did", wordExample: "/d/ id" },
+        { ipa: "k", example: "cat", wordExample: "/k/ at" },
+        { ipa: "g", example: "got", wordExample: "/g/ ot" },
+        { ipa: "tʃ", example: "chain", wordExample: "/tʃ/ ain" },
+        { ipa: "dʒ", example: "jam", wordExample: "/dʒ/ am" },
+        { ipa: "f", example: "fall", wordExample: "/f/ all" },
+        { ipa: "v", example: "van", wordExample: "/v/ an" },
+        { ipa: "θ", example: "thin", wordExample: "/θ/ in" },
+        { ipa: "ð", example: "this", wordExample: "/ð/ is" },
+        { ipa: "s", example: "see", wordExample: "/s/ ee" },
+        { ipa: "z", example: "zoo", wordExample: "/z/ oo" },
+        { ipa: "ʃ", example: "shoe", wordExample: "/ʃ/ oe" },
+        { ipa: "ʒ", example: "vision", wordExample: "vi /ʒ/ on" },
+        { ipa: "h", example: "hat", wordExample: "/h/ at" },
+        { ipa: "m", example: "man", wordExample: "/m/ an" },
+        { ipa: "n", example: "now", wordExample: "/n/ ow" },
+        { ipa: "ŋ", example: "sing", wordExample: "si /ŋ/" },
+        { ipa: "l", example: "leg", wordExample: "/l/ eg" },
+        { ipa: "r", example: "red", wordExample: "/r/ ed" },
+        { ipa: "j", example: "yes", wordExample: "/j/ es" },
+        { ipa: "w", example: "wet", wordExample: "/w/ et" }
+    ]
+};
